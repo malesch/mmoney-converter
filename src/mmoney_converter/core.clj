@@ -1,6 +1,6 @@
-(ns mmoney-converter.core)
+(ns mmoney-converter.core
+  (:gen-class))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defn -main [args]
+  ;; TODO
+  )

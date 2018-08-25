@@ -1,8 +1,2 @@
-# mmoney-converter
 
-Simple tool to convert the mMoney XML export file into an standardized format.
-
-## Usage
-
-
-
+Little tinker project, only for a private quick experiment!
