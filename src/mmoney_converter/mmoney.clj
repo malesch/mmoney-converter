@@ -1,9 +1,8 @@
 (ns mmoney-converter.mmoney
   (:require [clojure.string :as string]
-            [clojure.java.io :as io]
             [clojure.spec.alpha :as s]
             [clojure.data.xml :as xml]
-            [mmoney-converter.parse-utils :as pu]))
+            [mmoney-converter.util :as u]))
 
 
 (defn non-blank-string? [x] (and (string? x) (not (string/blank? x))))
@@ -39,19 +38,19 @@
   (when-not (s/valid? ::category attrs)
     (s/explain-data ::category attrs))
   [:category (-> attrs
-                 (update-in [:type] pu/safe-parse-integer)
-                 (update-in [:icon] pu/safe-parse-integer)
-                 (update-in [:color] pu/safe-parse-integer)
-                 (update-in [:tint] pu/safe-parse-integer)
-                 (update-in [:active] pu/safe-parse-boolean))])
+                 (update-in [:type] u/safe-parse-integer)
+                 (update-in [:icon] u/safe-parse-integer)
+                 (update-in [:color] u/safe-parse-integer)
+                 (update-in [:tint] u/safe-parse-integer)
+                 (update-in [:active] u/safe-parse-boolean))])
 
 (defmethod parse-xml-line :operation [{:keys [attrs]}]
   (when-not (s/valid? ::operation attrs)
     (s/explain-data ::operation attrs))
   [:operation (-> attrs
-                  (update-in [:sum] pu/safe-parse-float)
-                  (update-in [:date] pu/safe-parse-date)
-                  (update-in [:created] pu/safe-parse-epoch))])
+                  (update-in [:sum] u/safe-parse-float)
+                  (update-in [:date] u/safe-parse-date)
+                  (update-in [:created] u/safe-parse-epoch))])
 
 (defn parse-line [^String s]
   (-> s (xml/parse-str) (parse-xml-line)))
@@ -87,5 +86,5 @@
 
 ;(parse-file "example-export-file.xml")
 (defn parse-file [^String resource-name]
-  (with-open [rdr (io/reader (io/resource resource-name))]
+  (with-open [rdr (u/resource-reader resource-name)]
     (parse rdr)))

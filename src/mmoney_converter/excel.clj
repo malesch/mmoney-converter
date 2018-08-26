@@ -2,7 +2,8 @@
   (:require [clojure.java.io :as io]
             [clojure.edn :as edn]
             [dk.ative.docjure.spreadsheet :as ss]
-            [mmoney-converter.mmoney :as mm]))
+            [mmoney-converter.mmoney :as mm]
+            [mmoney-converter.util :as util]))
 
 (def columns
   [{:column     :account-number
@@ -44,15 +45,8 @@
                  :data-format "General"}}])
 
 
-(defn get-resource-reader [res]
-  (some-> (or (io/resource res)
-              (let [res-file (io/file res)]
-                (when (.exists res-file)
-                  res-file)))
-          (io/reader)))
-
 (defn read-account-mappings [mapping-file]
-  (if-let [reader (get-resource-reader mapping-file)]
+  (if-let [reader (util/resource-reader mapping-file)]
     (edn/read-string (slurp reader))
     (throw (ex-info (format "Account mapping file not found: %s" mapping-file) {:resource mapping-file}))))
 

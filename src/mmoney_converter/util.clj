@@ -1,4 +1,5 @@
-(ns mmoney-converter.parse-utils
+(ns mmoney-converter.util
+  (:require [clojure.java.io :as io])
   (:import (java.util Date)
            (java.time LocalDate ZoneOffset)
            (java.time.format DateTimeFormatter)))
@@ -41,3 +42,10 @@
       (Date. epoch))
     (catch Exception _
       nil)))
+
+(defn resource-reader [res]
+  (some-> (or (io/resource res)
+              (let [res-file (io/file res)]
+                (when (.exists res-file)
+                  res-file)))
+          (io/reader)))
