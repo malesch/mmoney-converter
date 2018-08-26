@@ -1,6 +1,5 @@
 (ns mmoney-converter.excel
-  (:require [clojure.java.io :as io]
-            [clojure.edn :as edn]
+  (:require [clojure.edn :as edn]
             [dk.ative.docjure.spreadsheet :as ss]
             [mmoney-converter.mmoney :as mm]
             [mmoney-converter.util :as util]))
@@ -63,6 +62,9 @@
 
 (defmulti format-op-value (fn [_ col-def _] (:column col-def)))
 
+(defmethod format-op-value :amount [value _ _]
+  (.setScale (bigdec value) 2 java.math.RoundingMode/HALF_UP))
+
 (defmethod format-op-value :account-number [value _ {:keys [category-lookup account-mapping]}]
   (let [category-path (some->> value (get category-lookup) (mm/category-path category-lookup))
         leaf-account-name (first category-path)]
@@ -77,6 +79,7 @@
 
 (defmethod format-op-value :default [value _ _]
   value)
+
 
 (defn select-operation-values [op column-definitions ctx]
   (map (fn [cdef]
