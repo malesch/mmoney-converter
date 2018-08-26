@@ -125,7 +125,7 @@
     (style-column-header!)
     (style-data-rows! column-definitions)))
 
-(defn export [fout data column-definitions account-mapping-file]
+(defn export [data column-definitions account-mapping-file fout]
   (let [workbook (ss/create-workbook "mMoney Export" nil)
         ctx (build-context data account-mapping-file)]
     (-> workbook

@@ -15,4 +15,5 @@
                    :dependencies [[org.clojure/tools.namespace "0.2.11"]]}
              :uberjar {:uberjar-name "mmoney-converter.jar"
                        ; :omit-source  true
-                       :aot [mmoney.core]}})
+                       :aot [mmoney-converter.core]
+                       :main mmoney-converter.core}})

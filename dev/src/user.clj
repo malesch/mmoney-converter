@@ -11,4 +11,4 @@
 ; (export-data "mmoney-export.xml" "accounts.edn" "export.xls")
 (defn export-data [xml-file mapping-file out-file]
   (let [data (read-xml xml-file)]
-    (xls/export out-file data xls/columns mapping-file)))
+    (xls/export data xls/columns mapping-file out-file)))
