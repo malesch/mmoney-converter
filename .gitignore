@@ -9,3 +9,6 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
+export.xls
+dev/resources/mmoney-export.xml
+dev/resources/accounts.edn
