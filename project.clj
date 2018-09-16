@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/tools.cli "0.3.7"]
                  [org.clojure/data.xml "0.0.8"]
+                 [org.clojure/data.csv "0.1.4"]
                  [dk.ative/docjure "1.12.0"]]
   :min-lein-version "2.0.0"
   :source-paths ["src"]

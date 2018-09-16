@@ -2,7 +2,7 @@
   (:require [clojure.edn :as edn]
             [dk.ative.docjure.spreadsheet :as ss]
             [mmoney-converter.mmoney :as mm]
-            [mmoney-converter.util :as util]))
+            [mmoney-converter.account :as account]))
 
 (def columns
   [{:column     :account-number
@@ -44,14 +44,9 @@
                  :data-format "General"}}])
 
 
-(defn read-account-mappings [mapping-file]
-  (if-let [reader (util/resource-reader mapping-file)]
-    (edn/read-string (slurp reader))
-    (throw (ex-info (format "Account mapping file not found: %s" mapping-file) {:resource mapping-file}))))
-
 (defn build-context [data mapping-file]
   {:category-lookup (mm/category-lookup (:category data))
-   :account-mapping (read-account-mappings mapping-file)})
+   :account-mapping (account/read-mappings mapping-file)})
 
 (defn select-first-sheet [workbook]
   (-> workbook (ss/sheet-seq) first))
@@ -68,7 +63,7 @@
 (defmethod format-op-value :account-number [value _ {:keys [category-lookup account-mapping]}]
   (let [category-path (some->> value (get category-lookup) (mm/category-path category-lookup))
         leaf-account-name (first category-path)]
-    (or (get account-mapping leaf-account-name)
+    (or (account/resolve-account-number account-mapping leaf-account-name)
         (throw (ex-info (format "Missing account mapping for `%s`" leaf-account-name)
                         {:account-name leaf-account-name
                          :category-path category-path})))))

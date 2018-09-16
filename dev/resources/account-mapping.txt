@@ -1,0 +1,8 @@
+"1000","CHF","Health","0","27.01.2015","ADMIN"
+"2000","EUR","Transportation","0","27.01.2015","ADMIN"
+"3000","CHF","Shopping","0","28.01.2015","ADMIN"
+"4000","EUR","Entertainment","0","28.01.2015","ADMIN"
+"5000","USD","Reimbursement","0","23.06.2017","ADMIN"
+"6000","CHF","Gas","0","05.04.2018","ADMIN"
+"7000","CHF","Restaurant","0","06.06.2018","ADMIN"
+"8000","EUR","Market Shopping","0","06.06.2018","ADMIN"

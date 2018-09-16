@@ -11,4 +11,4 @@ pom.xml.asc
 .hg/
 export.xls
 dev/resources/mmoney-export.xml
-dev/resources/accounts.edn
+dev/resources/kontoplan.txt

@@ -1,8 +1,8 @@
-{"Health" 1000
- "Transportation" 2000
- "Shopping" 3000
- "Entertainment" 4000
- "Reimbursement" 5000
- "Gas" 6000
- "Restaurant" 7000
- "Market Shopping" 8000}
+[{:account 1000 :label "Health" :currency :CHF}
+ {:account 2000 :label "Transportation" :currency :EURO}
+ {:account 3000 :label "Shopping" :currency :CHF}
+ {:account 4000 :label "Entertainment" :currency :EURO}
+ {:account 5000 :label "Reimbursement" :currency :USD}
+ {:account 6000 :label "Gas" :currency :CHF}
+ {:account 7000 :label "Restaurant" :currency :CHF}
+ {:account 8000 :label "Market Shopping" :currency :EUR}]
