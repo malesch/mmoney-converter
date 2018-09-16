@@ -43,7 +43,6 @@
                  ; Workaround: Update data-format (or set background color)
                  :data-format "General"}}])
 
-
 (defn build-context [data mapping-file]
   {:category-lookup (mm/category-lookup (:category data))
    :account-mapping (account/read-mappings mapping-file)})
@@ -64,9 +63,9 @@
   (let [category-path (some->> value (get category-lookup) (mm/category-path category-lookup))
         leaf-account-name (first category-path)]
     (or (account/resolve-account-number account-mapping leaf-account-name)
-        (throw (ex-info (format "Missing account mapping for `%s`" leaf-account-name)
-                        {:account-name leaf-account-name
-                         :category-path category-path})))))
+        (do
+          (println (format "Warning: Missing account mapping for `%s` (%s)" leaf-account-name category-path))
+          "-"))))
 
 (defmethod format-op-value :account-name [value _ {:keys [category-lookup]}]
   (let [category-path (some->> value (get category-lookup) (mm/category-path category-lookup))]
