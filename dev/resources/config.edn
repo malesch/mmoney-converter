@@ -1,39 +1,44 @@
-{:account-mapping "account-mapping.edn"
- :debit-accounts #{1000 1001}
- :columns [{:column     :date
-            :source-key :created
-            :label      "Datum"
-            :width      5120
-            :styles     {:halign      :center
-                         :data-format "dd.mm.yyyy"}}
-           {:column     :account-number
-            :source-key :categoryId
-            :label      "Sollkonto"
-            :styles     {:halign :center}}
-           {:column     :account-name
-            :source-key :categoryId
-            :label      "Kategorie"
-            :width      10240
-            :styles     {:halign :left
-                         ; Bug? Halign is not applied.
-                         ; Workaround: Update data-format (or set background color)
-                         :data-format "General"}}
-           {:column     :currency
-            :source-key :currencyId
-            :label      "Währung"
-            :width      2560
-            :styles     {:halign :center}}
-           {:column     :amount
-            :source-key :sum
-            :label      "Betrag"
-            :width      2560
-            :styles     {:halign      :center
-                         :data-format "0.00"}}
-           {:column     :detail
-            :source-key :note
-            :label      "Buchungstext"
-            :width      20480
-            :styles     {:halign :left
-                         ; Bug? Halign is not applied.
-                         ; Workaround: Update data-format (or set background color)
-                         :data-format "General"}}]}
+{:account-mapping {:file "account-mapping.edn"
+                   :encoding "Windows-1252"}
+ :credit-accounts #{1000 1001}
+ :columns         [{:column     :date
+                    :source-key :created
+                    :label      "Datum"
+                    :width      5120
+                    :styles     {:halign      :center
+                                 :data-format "dd.mm.yyyy"}}
+                   {:column     :debit-account
+                    :source-key :categoryId
+                    :label      "Sollkonto"
+                    :styles     {:halign :center}}
+                   {:column     :account-name
+                    :source-key :categoryId
+                    :label      "Kategorie"
+                    :width      10240
+                    :styles     {:halign      :left
+                                 ; Bug? Halign is not applied.
+                                 ; Workaround: Update data-format (or set background color)
+                                 :data-format "General"}}
+                   {:column     :credit-account
+                    :source-key :categoryId
+                    :label      "Habenskonto"
+                    :styles     {:halign :center}}
+                   {:column     :currency
+                    :source-key :currencyId
+                    :label      "Währung"
+                    :width      2560
+                    :styles     {:halign :center}}
+                   {:column     :amount
+                    :source-key :sum
+                    :label      "Betrag"
+                    :width      2560
+                    :styles     {:halign      :center
+                                 :data-format "0.00"}}
+                   {:column     :detail
+                    :source-key :note
+                    :label      "Buchungstext"
+                    :width      20480
+                    :styles     {:halign      :left
+                                 ; Bug? Halign is not applied.
+                                 ; Workaround: Update data-format (or set background color)
+                                 :data-format "General"}}]}

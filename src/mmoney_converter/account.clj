@@ -15,25 +15,25 @@
 
 ; CSV is the default format.
 ; EDN is available only for debugging purposes
-(defmulti read-mappings (fn [res] (resource-ext res)))
+(defmulti read-mappings (fn [{:keys [file]}] (resource-ext file)))
 
-(defmethod read-mappings :edn [mapping-file]
-  (if-let [reader (util/resource-reader mapping-file)]
+(defmethod read-mappings :edn [{:keys [file encoding] :as account-mapping}]
+  (if-let [reader (util/resource-reader file encoding)]
     (reduce (fn [acc {:keys [account label currency]}]
               (assoc acc label {:account account :currency (name currency)}))
             {}
-            (-> reader (slurp) (edn/read-string)))
-    (throw (ex-info (format "Account mapping EDN file not found: %s" mapping-file) {:resource mapping-file}))))
+            (-> reader slurp (edn/read-string)))
+    (throw (ex-info (format "Account mapping EDN file not found: %s" file) account-mapping))))
 
-(defmethod read-mappings :default [mapping-file]
-  (if-let [reader (util/resource-reader mapping-file)]
+(defmethod read-mappings :default [{:keys [file encoding] :as account-mapping}]
+  (if-let [reader (util/resource-reader file encoding)]
     (reduce (fn [acc [account currency label]]
               (if (or (string/blank? account) (string/blank? label))
                 acc
                 (assoc acc label {:account (Integer/parseInt account) :currency currency})))
             {}
-            (csv/read-csv reader :encoding :windows-1252))
-    (throw (ex-info (format "Account mapping CSV file not found: %s" mapping-file) {:resource mapping-file}))))
+            (csv/read-csv reader))
+    (throw (ex-info (format "Account mapping CSV file not found: %s" file) account-mapping))))
 
 
 (defn resolve-account-number [mappings account-name]

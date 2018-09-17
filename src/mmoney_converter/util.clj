@@ -43,9 +43,14 @@
     (catch Exception _
       nil)))
 
-(defn resource-reader [res]
-  (some-> (or (io/resource res)
-              (let [res-file (io/file res)]
-                (when (.exists res-file)
-                  res-file)))
-          (io/reader)))
+(defn resource-reader
+  ([res] (resource-reader res nil))
+  ([res encoding]
+   (let [r (or (io/resource res)
+               (let [res-file (io/file res)]
+                 (when (.exists res-file)
+                   res-file)))]
+     (when r
+       (if encoding
+         (io/reader r :encoding encoding)
+         (io/reader r))))))
