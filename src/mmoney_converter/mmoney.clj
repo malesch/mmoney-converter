@@ -52,6 +52,9 @@
                   (update-in [:date] u/safe-parse-date)
                   (update-in [:created] u/safe-parse-epoch))])
 
+(defmethod parse-xml-line :default [{:keys [tag]}]
+  (println (format "Warning: Ignoring unknown xml tag: %s" tag)))
+
 (defn parse-line [^String s]
   (-> s (xml/parse-str) (parse-xml-line)))
 

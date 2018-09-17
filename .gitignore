@@ -12,3 +12,6 @@ pom.xml.asc
 export.xls
 dev/resources/mmoney-export.xml
 dev/resources/kontoplan.txt
+dev/resources/accounts.edn
+.idea/
+*.iml
