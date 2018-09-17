@@ -62,7 +62,9 @@
   (reduce
     (fn [acc line]
       (let [[typ data] (parse-line line)]
-        (update acc typ conj data)))
+        (if typ
+          (update acc typ conj data)
+          acc)))
     {:category  []
      :operation []}
     (rest (line-seq reader))))

@@ -4,45 +4,6 @@
             [mmoney-converter.mmoney :as mm]
             [mmoney-converter.account :as account]))
 
-(def columns
-  [{:column     :date
-    :source-key :created
-    :label      "Datum"
-    :width      (* 20 256)
-    :styles     {:halign      :center
-                 :data-format "dd.mm.yyyy"}}
-   {:column     :account-number
-    :source-key :categoryId
-    :label      "Sollkonto"
-    :styles     {:halign :center}}
-   {:column     :account-name
-    :source-key :categoryId
-    :label      "Kategorie"
-    :width      (* 40 256)
-    :styles     {:halign :left
-                 ; Bug? Halign is not applied.
-                 ; Workaround: Update data-format (or set background color)
-                 :data-format "General"}}
-   {:column     :currency
-    :source-key :currencyId
-    :label      "Währung"
-    :width      (* 10 256)
-    :styles     {:halign :center}}
-   {:column     :amount
-    :source-key :sum
-    :label      "Betrag"
-    :width      (* 10 256)
-    :styles     {:halign      :center
-                 :data-format "0.00"}}
-   {:column     :detail
-    :source-key :note
-    :label      "Buchungstext"
-    :width      (* 80 256)
-    :styles     {:halign :left
-                 ; Bug? Halign is not applied.
-                 ; Workaround: Update data-format (or set background color)
-                 :data-format "General"}}])
-
 (defn build-context [data mapping-file]
   {:category-lookup (mm/category-lookup (:category data))
    :account-mapping (account/read-mappings mapping-file)})
@@ -88,10 +49,10 @@
           (select-operation-values $ column-definitions xfs)
           (ss/add-row! sheet $))))
 
-(defn write-export-sheet [sheet data column-definitions xfs]
+(defn write-export-sheet [sheet data {:keys [columns]} xfs]
   (doto sheet
-    (add-export-column-headers! column-definitions)
-    (add-export-data! data column-definitions xfs)))
+    (add-export-column-headers! columns)
+    (add-export-data! data columns xfs)))
 
 (defn set-column-widths! [sheet column-definitions]
   (doseq [[idx {:keys [width]}] (map-indexed vector column-definitions)]
@@ -116,18 +77,18 @@
           (when-not (empty? cell-style)
             (ss/set-cell-style! cell (ss/create-cell-style! workbook cell-style))))))))
 
-(defn style-export-sheet [sheet column-definitions]
+(defn style-export-sheet [sheet {:keys [columns]}]
   (doto sheet
-    (set-column-widths! column-definitions)
+    (set-column-widths! columns)
     (style-column-header!)
-    (style-data-rows! column-definitions)))
+    (style-data-rows! columns)))
 
-(defn export [data column-definitions account-mapping-file fout]
+(defn export [data config account-mapping-file fout]
   (let [workbook (ss/create-workbook "mMoney Export" nil)
         ctx (build-context data account-mapping-file)]
     (-> workbook
         (select-first-sheet)
-        (write-export-sheet data column-definitions ctx)
-        (style-export-sheet column-definitions))
+        (write-export-sheet data config ctx)
+        (style-export-sheet config))
     (ss/save-workbook! fout workbook)
     :OK))
