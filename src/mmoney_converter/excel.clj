@@ -5,26 +5,15 @@
             [mmoney-converter.account :as account]))
 
 (def columns
-  [{:column     :account-number
-    :source-key :categoryId
-    :label      "Konto"
-    :styles     {:halign :center}}
-   {:column     :amount
-    :source-key :sum
-    :label      "Betrag"
-    :width      (* 10 256)
-    :styles     {:halign      :center
-                 :data-format "0.00"}}
-   {:column     :date
+  [{:column     :date
     :source-key :created
     :label      "Datum"
     :width      (* 20 256)
     :styles     {:halign      :center
                  :data-format "dd.mm.yyyy"}}
-   {:column     :currency
-    :source-key :currencyId
-    :label      "Währung"
-    :width      (* 10 256)
+   {:column     :account-number
+    :source-key :categoryId
+    :label      "Sollkonto"
     :styles     {:halign :center}}
    {:column     :account-name
     :source-key :categoryId
@@ -34,9 +23,20 @@
                  ; Bug? Halign is not applied.
                  ; Workaround: Update data-format (or set background color)
                  :data-format "General"}}
+   {:column     :currency
+    :source-key :currencyId
+    :label      "Währung"
+    :width      (* 10 256)
+    :styles     {:halign :center}}
+   {:column     :amount
+    :source-key :sum
+    :label      "Betrag"
+    :width      (* 10 256)
+    :styles     {:halign      :center
+                 :data-format "0.00"}}
    {:column     :detail
     :source-key :note
-    :label      "Beschreibung"
+    :label      "Buchungstext"
     :width      (* 80 256)
     :styles     {:halign :left
                  ; Bug? Halign is not applied.
