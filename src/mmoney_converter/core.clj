@@ -60,16 +60,16 @@
       (:help options) (exit 0 (usage summary))
       errors (exit 1 (usage summary errors)))
 
-    (let [config (read-configuration (:config options))
+    (let [cfg-file (:config options)
           in-file (:input options)
-          mapping-file (:account-mapping config)
-          out-file (:output options)]
+          out-file (:output options)
+          config (read-configuration cfg-file)]
       (println "Convert mMoney XML export to Excel")
-      (println "  Account mapping:  " mapping-file)
+      (println "  Configuration:    " cfg-file)
       (println "  Input:            " in-file)
       (println "  Output:           " out-file)
       (println)
       (-> in-file
           (mm/parse-file)
-          (xls/export config mapping-file out-file))
+          (xls/export config out-file))
       (println "Done"))))

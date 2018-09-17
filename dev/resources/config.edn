@@ -10,6 +10,7 @@
                    {:column     :debit-account
                     :source-key :categoryId
                     :label      "Sollkonto"
+                    :width      3125
                     :styles     {:halign :center}}
                    {:column     :account-name
                     :source-key :categoryId
@@ -22,6 +23,7 @@
                    {:column     :credit-account
                     :source-key :categoryId
                     :label      "Habenskonto"
+                    :width      3125
                     :styles     {:halign :center}}
                    {:column     :currency
                     :source-key :currencyId

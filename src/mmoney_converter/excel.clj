@@ -4,9 +4,15 @@
             [mmoney-converter.mmoney :as mm]
             [mmoney-converter.account :as account]))
 
-(defn build-context [data mapping-file]
-  {:category-lookup (mm/category-lookup (:category data))
-   :account-mapping (account/read-mappings mapping-file)})
+(defn build-context [data {:keys [account-mapping] :as config}]
+  {:config          config
+   :category-lookup (mm/category-lookup (:category data))
+   :account-mapping (account/read-mappings account-mapping)})
+
+(defn credit-account?
+  "Return true if the given account numer is a configured credit account"
+  [{:keys [credit-accounts]} account-number]
+  (contains? credit-accounts account-number))
 
 (defn select-first-sheet [workbook]
   (-> workbook (ss/sheet-seq) first))
@@ -20,13 +26,25 @@
 (defmethod format-op-value :amount [value _ _]
   (.setScale (bigdec value) 2 java.math.RoundingMode/HALF_UP))
 
-(defmethod format-op-value :account-number [value _ {:keys [category-lookup account-mapping]}]
+(defmethod format-op-value :debit-account [value _ {:keys [config category-lookup account-mapping]}]
   (let [category-path (some->> value (get category-lookup) (mm/category-path category-lookup))
-        leaf-account-name (first category-path)]
-    (or (account/resolve-account-number account-mapping leaf-account-name)
-        (do
-          (println (format "Warning: Missing account mapping for `%s` (%s)" leaf-account-name category-path))
-          "-"))))
+        leaf-account-name (first category-path)
+        account-number (account/resolve-account-number account-mapping leaf-account-name)]
+    (when-not (credit-account? config account-number)
+      (or account-number
+          (do
+            (println (format "Warning: Missing account mapping for `%s` (%s)" leaf-account-name category-path))
+            "-")))))
+
+(defmethod format-op-value :credit-account [value _ {:keys [config category-lookup account-mapping]}]
+  (let [category-path (some->> value (get category-lookup) (mm/category-path category-lookup))
+        leaf-account-name (first category-path)
+        account-number (account/resolve-account-number account-mapping leaf-account-name)]
+    (when (credit-account? config account-number)
+      (or account-number
+          (do
+            (println (format "Warning: Missing account mapping for `%s` (%s)" leaf-account-name category-path))
+            "-")))))
 
 (defmethod format-op-value :account-name [value _ {:keys [category-lookup]}]
   (let [category-path (some->> value (get category-lookup) (mm/category-path category-lookup))]
@@ -36,23 +54,25 @@
   value)
 
 
-(defn select-operation-values [op column-definitions ctx]
-  (map (fn [cdef]
-         (-> op
-             (get (:source-key cdef))
-             (format-op-value cdef ctx)))
-       column-definitions))
+(defn select-operation-values [op ctx]
+  (let [columns (get-in ctx [:config :columns])]
+    (map (fn [cdef]
+           (-> op
+               (get (:source-key cdef))
+               (format-op-value cdef ctx)))
+         columns)))
 
-(defn add-export-data! [sheet data column-definitions xfs]
+(defn add-export-data! [sheet data ctx]
   (doseq [op (:operation data)]
     (as-> op $
-          (select-operation-values $ column-definitions xfs)
+          (select-operation-values $ ctx)
           (ss/add-row! sheet $))))
 
-(defn write-export-sheet [sheet data {:keys [columns]} xfs]
-  (doto sheet
-    (add-export-column-headers! columns)
-    (add-export-data! data columns xfs)))
+(defn write-export-sheet [sheet data ctx]
+  (let [columns (get-in ctx [:config :columns])]
+    (doto sheet
+      (add-export-column-headers! columns)
+      (add-export-data! data ctx))))
 
 (defn set-column-widths! [sheet column-definitions]
   (doseq [[idx {:keys [width]}] (map-indexed vector column-definitions)]
@@ -77,18 +97,19 @@
           (when-not (empty? cell-style)
             (ss/set-cell-style! cell (ss/create-cell-style! workbook cell-style))))))))
 
-(defn style-export-sheet [sheet {:keys [columns]}]
-  (doto sheet
-    (set-column-widths! columns)
-    (style-column-header!)
-    (style-data-rows! columns)))
+(defn style-export-sheet [sheet ctx]
+  (let [columns (get-in ctx [:config :columns])]
+    (doto sheet
+      (set-column-widths! columns)
+      (style-column-header!)
+      (style-data-rows! columns))))
 
-(defn export [data config account-mapping-file fout]
+(defn export [data config fout]
   (let [workbook (ss/create-workbook "mMoney Export" nil)
-        ctx (build-context data account-mapping-file)]
+        ctx (build-context data config)]
     (-> workbook
         (select-first-sheet)
-        (write-export-sheet data config ctx)
-        (style-export-sheet config))
+        (write-export-sheet data ctx)
+        (style-export-sheet ctx))
     (ss/save-workbook! fout workbook)
     :OK))

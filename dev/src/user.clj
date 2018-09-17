@@ -9,6 +9,6 @@
 
 ; (export-data "example.xml" "account-mapping.edn" "export.xls")
 ; (export-data "mmoney-export.xml" "kontoplan.txt" "export.xls")
-(defn export-data [xml-file mapping-file out-file]
+#_(defn export-data [xml-file mapping-file out-file]
   (let [data (read-xml xml-file)]
     (xls/export data xls/columns mapping-file out-file)))

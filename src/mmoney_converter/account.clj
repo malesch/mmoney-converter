@@ -36,5 +36,12 @@
     (throw (ex-info (format "Account mapping CSV file not found: %s" file) account-mapping))))
 
 
-(defn resolve-account-number [mappings account-name]
-  (:account (get mappings account-name)))
+(defn resolve-account-number
+  "Return the account number (int) for the given account name or nil,
+  if no mapping is existing.
+  Note: The mapped account number can either be a String or already an Integer value."
+  [mappings account-name]
+  (let [acc (:account (get mappings account-name))]
+    (if (string? acc)
+      (Integer/parseInt acc)
+      acc)))
