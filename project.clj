@@ -1,4 +1,4 @@
-(defproject mmoney-converter "0.1.0"
+(defproject mmoney-converter "0.2.0"
   :description "Convert or export mMoney XML export file"
   :url "https://github.com/malesch/mmoney-converter"
   :license {:name "Eclipse Public License"
@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/tools.cli "0.3.7"]
                  [org.clojure/data.xml "0.0.8"]
+                 [org.clojure/data.zip "0.1.2"]
                  [org.clojure/data.csv "0.1.4"]
                  [dk.ative/docjure "1.12.0"]]
   :min-lein-version "2.0.0"

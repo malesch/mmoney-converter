@@ -1,26 +1,28 @@
 <?xml version='1.0' encoding='utf-8' ?>
-<category id="54d34be2-3db3-445a-a386-6baca7886ce7" type="1" name="Food" icon="7" color="-6543440" tint="-1" active="1" />
-<category id="c4d099a5-0bfc-4f50-896f-d8818376a48b" type="1" name="Market Shopping" icon="0" color="-1499549" tint="-1" parentId="54d34be2-3db3-445a-a386-6baca7886ce7" active="1" />
-<category id="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" type="1" name="Restaurant" icon="10" color="-6982195" tint="-1" parentId="54d34be2-3db3-445a-a386-6baca7886ce7" active="1" />
-<category id="c7103d62-d9b0-4c07-b5bf-891182409b96" type="1" name="Health" icon="18" color="-11751600" tint="-1" active="1" />
-<category id="91e41c14-c8b3-4c38-80e3-11ebd25f53be" type="1" name="Medicines" icon="19" color="-13070788" tint="-1" parentId="c7103d62-d9b0-4c07-b5bf-891182409b96" active="1" />
-<category id="e5c3c4f4-1a6c-46b4-a378-2dabce30c96f" type="1" name="Fitness" icon="5" color="-16746133" tint="-1" parentId="c7103d62-d9b0-4c07-b5bf-891182409b96" active="1" />
-<category id="7906d749-2828-4128-b691-f80ba78eecb7" type="1" name="Transportation" icon="21" color="-14606047" tint="-1" active="1" />
-<category id="19461315-9495-410b-bf6c-eb18e42e4df5" type="1" name="Car" icon="2" color="-10395295" tint="-1" parentId="7906d749-2828-4128-b691-f80ba78eecb7" active="1" />
-<category id="5b330803-b3ed-46b9-ba61-cd9a30a67666" type="1" name="Gas" icon="8" color="-6381922" tint="-1" parentId="19461315-9495-410b-bf6c-eb18e42e4df5" active="1" />
-<category id="df136ec0-2f20-40f1-8df7-5f3477a45c5f" type="1" name="Maintenance" icon="34" color="-12232092" tint="-1" parentId="19461315-9495-410b-bf6c-eb18e42e4df5" active="1" />
-<category id="6b8b09e0-c8f3-4fca-80f8-ddb7ba773eac" type="1" name="Public transport" icon="21" color="-14606047" tint="-1" parentId="7906d749-2828-4128-b691-f80ba78eecb7" active="1" />
-<category id="4602affe-479c-47a2-8bb1-41ec2b3ecee1" type="1" name="Shopping" icon="37" color="-15064194" tint="-1" active="1" />
-<category id="3f04ba4f-c828-4c15-ba62-2b85bf928178" type="1" name="Clothes" icon="12" color="-15108398" tint="-1" parentId="4602affe-479c-47a2-8bb1-41ec2b3ecee1" active="1" />
-<category id="ccc2d2aa-0ad4-49f6-b983-ea3fd74496ac" type="1" name="Household" icon="52" color="-8812853" tint="-1" parentId="4602affe-479c-47a2-8bb1-41ec2b3ecee1" active="1" />
-<category id="e2fd1360-7b86-4ee7-b508-848afb55aee5" type="1" name="Entertainment" icon="29" color="-4246004" tint="-1" active="1" />
-<category id="b24e18ae-657b-48d3-bea1-a99dd873bf84" type="2" name="Reimbursement" icon="49" color="-14983648" tint="-16725933" active="1" />
-<operation id="4edeaf05-69cf-4fc8-8e0d-05bb056dfa0e" note="Gasoline Shell" sum="55" currencyId="EUR" date="2018-07-04" categoryId="5b330803-b3ed-46b9-ba61-cd9a30a67666" created="1530740090680" />
-<operation id="201e1cdb-b429-4d80-a228-b4bab8de4dd9" note="Ice cream" sum="25" currencyId="EUR" date="2018-07-04" categoryId="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" created="1530740171423" />
-<operation id="b366b6df-818f-491d-b87a-0a9cf58ffd5f" note="Bread" sum="3" currencyId="USD" date="2018-07-06" categoryId="c4d099a5-0bfc-4f50-896f-d8818376a48b" created="1530909002803" />
-<operation id="03268c1c-c437-48f7-b504-cc47ec489e2c" note="Socks" sum="24" currencyId="EUR" date="2018-07-07" categoryId="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" created="1530958788150" />
-<operation id="be3cb876-b66c-40b2-8261-a4022d7c44cf" note="Fruits" sum="10" currencyId="EUR" date="2018-07-07" categoryId="c4d099a5-0bfc-4f50-896f-d8818376a48b" created="1530970268915" />
-<operation id="258dd2b4-c002-44e3-a3e5-67b9558d2ca1" note="Marionnaud Hairclips" sum="4" currencyId="EUR" date="2018-07-07" categoryId="4602affe-479c-47a2-8bb1-41ec2b3ecee1" created="1530977474794" />
-<operation id="9b4de5e4-de37-46f8-a528-42e976957d0d" note="LittleShop" sum="12" currencyId="EUR" date="2018-07-07" categoryId="c4d099a5-0bfc-4f50-896f-d8818376a48b" created="1530978157129" />
-<operation id="704d91dc-804c-408a-91ba-dd19dccd7fd0" note="King" sum="15" currencyId="EUR" date="2018-07-08" categoryId="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" created="1531067182939" />
-<operation id="3175f4bc-4260-4d0a-b66d-77827347d055" note="Restaurant Benning" sum="62" currencyId="EUR" date="2018-07-08" categoryId="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" created="1531067255733" />
+<db id="local" version="4">
+    <category id="54d34be2-3db3-445a-a386-6baca7886ce7" type="1" name="Food" icon="7" color="-6543440" tint="-1" active="1" />
+    <category id="c4d099a5-0bfc-4f50-896f-d8818376a48b" type="1" name="Market Shopping" icon="0" color="-1499549" tint="-1" parentId="54d34be2-3db3-445a-a386-6baca7886ce7" active="1" />
+    <category id="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" type="1" name="Restaurant" icon="10" color="-6982195" tint="-1" parentId="54d34be2-3db3-445a-a386-6baca7886ce7" active="1" />
+    <category id="c7103d62-d9b0-4c07-b5bf-891182409b96" type="1" name="Health" icon="18" color="-11751600" tint="-1" active="1" />
+    <category id="91e41c14-c8b3-4c38-80e3-11ebd25f53be" type="1" name="Medicines" icon="19" color="-13070788" tint="-1" parentId="c7103d62-d9b0-4c07-b5bf-891182409b96" active="1" />
+    <category id="e5c3c4f4-1a6c-46b4-a378-2dabce30c96f" type="1" name="Fitness" icon="5" color="-16746133" tint="-1" parentId="c7103d62-d9b0-4c07-b5bf-891182409b96" active="1" />
+    <category id="7906d749-2828-4128-b691-f80ba78eecb7" type="1" name="Transportation" icon="21" color="-14606047" tint="-1" active="1" />
+    <category id="19461315-9495-410b-bf6c-eb18e42e4df5" type="1" name="Car" icon="2" color="-10395295" tint="-1" parentId="7906d749-2828-4128-b691-f80ba78eecb7" active="1" />
+    <category id="5b330803-b3ed-46b9-ba61-cd9a30a67666" type="1" name="Gas" icon="8" color="-6381922" tint="-1" parentId="19461315-9495-410b-bf6c-eb18e42e4df5" active="1" />
+    <category id="df136ec0-2f20-40f1-8df7-5f3477a45c5f" type="1" name="Maintenance" icon="34" color="-12232092" tint="-1" parentId="19461315-9495-410b-bf6c-eb18e42e4df5" active="1" />
+    <category id="6b8b09e0-c8f3-4fca-80f8-ddb7ba773eac" type="1" name="Public transport" icon="21" color="-14606047" tint="-1" parentId="7906d749-2828-4128-b691-f80ba78eecb7" active="1" />
+    <category id="4602affe-479c-47a2-8bb1-41ec2b3ecee1" type="1" name="Shopping" icon="37" color="-15064194" tint="-1" active="1" />
+    <category id="3f04ba4f-c828-4c15-ba62-2b85bf928178" type="1" name="Clothes" icon="12" color="-15108398" tint="-1" parentId="4602affe-479c-47a2-8bb1-41ec2b3ecee1" active="1" />
+    <category id="ccc2d2aa-0ad4-49f6-b983-ea3fd74496ac" type="1" name="Household" icon="52" color="-8812853" tint="-1" parentId="4602affe-479c-47a2-8bb1-41ec2b3ecee1" active="1" />
+    <category id="e2fd1360-7b86-4ee7-b508-848afb55aee5" type="1" name="Entertainment" icon="29" color="-4246004" tint="-1" active="1" />
+    <category id="b24e18ae-657b-48d3-bea1-a99dd873bf84" type="2" name="Reimbursement" icon="49" color="-14983648" tint="-16725933" active="1" />
+    <operation id="4edeaf05-69cf-4fc8-8e0d-05bb056dfa0e" note="Gasoline Shell" sum="55" currencyId="EUR" date="2018-07-04" categoryId="5b330803-b3ed-46b9-ba61-cd9a30a67666" created="1530740090680" />
+    <operation id="201e1cdb-b429-4d80-a228-b4bab8de4dd9" note="Ice cream" sum="25" currencyId="EUR" date="2018-07-04" categoryId="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" created="1530740171423" />
+    <operation id="b366b6df-818f-491d-b87a-0a9cf58ffd5f" note="Bread" sum="3" currencyId="USD" date="2018-07-06" categoryId="c4d099a5-0bfc-4f50-896f-d8818376a48b" created="1530909002803" />
+    <operation id="03268c1c-c437-48f7-b504-cc47ec489e2c" note="Socks" sum="24" currencyId="EUR" date="2018-07-07" categoryId="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" created="1530958788150" />
+    <operation id="be3cb876-b66c-40b2-8261-a4022d7c44cf" note="Fruits" sum="10" currencyId="EUR" date="2018-07-07" categoryId="c4d099a5-0bfc-4f50-896f-d8818376a48b" created="1530970268915" />
+    <operation id="258dd2b4-c002-44e3-a3e5-67b9558d2ca1" note="Marionnaud Hairclips" sum="4" currencyId="EUR" date="2018-07-07" categoryId="4602affe-479c-47a2-8bb1-41ec2b3ecee1" created="1530977474794" />
+    <operation id="9b4de5e4-de37-46f8-a528-42e976957d0d" note="LittleShop" sum="12" currencyId="EUR" date="2018-07-07" categoryId="c4d099a5-0bfc-4f50-896f-d8818376a48b" created="1530978157129" />
+    <operation id="704d91dc-804c-408a-91ba-dd19dccd7fd0" note="King" sum="15" currencyId="EUR" date="2018-07-08" categoryId="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" created="1531067182939" />
+    <operation id="3175f4bc-4260-4d0a-b66d-77827347d055" note="Restaurant Benning" sum="62" currencyId="EUR" date="2018-07-08" categoryId="72641f0b-86e5-4fe2-8f11-1de9aa2fd3ac" created="1531067255733" />
+</db>

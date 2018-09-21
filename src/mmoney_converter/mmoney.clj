@@ -2,6 +2,8 @@
   (:require [clojure.string :as string]
             [clojure.spec.alpha :as s]
             [clojure.data.xml :as xml]
+            [clojure.zip :as zip]
+            [clojure.data.zip.xml :refer [xml-> attr text]]
             [mmoney-converter.util :as u]))
 
 
@@ -32,42 +34,31 @@
 (s/def ::operation (s/keys :req-un [:operation/id :operation/sum :operation/currencyId :operation/date :operation/categoryId :operation/created]
                            :opt-un [:operation/note]))
 
-(defmulti parse-xml-line :tag)
 
-(defmethod parse-xml-line :category [{:keys [attrs]}]
-  (when-not (s/valid? ::category attrs)
-    (s/explain-data ::category attrs))
-  [:category (-> attrs
-                 (update-in [:type] u/safe-parse-integer)
-                 (update-in [:icon] u/safe-parse-integer)
-                 (update-in [:color] u/safe-parse-integer)
-                 (update-in [:tint] u/safe-parse-integer)
-                 (update-in [:active] u/safe-parse-boolean))])
+(defn parse-category [loc]
+  (let [{:keys [attrs]} (zip/node loc)]
+    (when-not (s/valid? ::category attrs)
+      (s/explain-data ::category attrs))
+    (-> attrs
+        (update-in [:type] u/safe-parse-integer)
+        (update-in [:icon] u/safe-parse-integer)
+        (update-in [:color] u/safe-parse-integer)
+        (update-in [:tint] u/safe-parse-integer)
+        (update-in [:active] u/safe-parse-boolean))))
 
-(defmethod parse-xml-line :operation [{:keys [attrs]}]
-  (when-not (s/valid? ::operation attrs)
-    (s/explain-data ::operation attrs))
-  [:operation (-> attrs
-                  (update-in [:sum] u/safe-parse-float)
-                  (update-in [:date] u/safe-parse-date)
-                  (update-in [:created] u/safe-parse-epoch))])
+(defn parse-operation [loc]
+  (let [{:keys [attrs]} (zip/node loc)]
+    (when-not (s/valid? ::operation attrs)
+      (s/explain-data ::operation attrs))
+    (-> attrs
+        (update-in [:sum] u/safe-parse-float)
+        (update-in [:date] u/safe-parse-date)
+        (update-in [:created] u/safe-parse-epoch))))
 
-(defmethod parse-xml-line :default [{:keys [tag]}]
-  (println (format "Warning: Ignoring unknown xml tag: %s" tag)))
-
-(defn parse-line [^String s]
-  (-> s (xml/parse-str) (parse-xml-line)))
-
-(defn parse [reader]
-  (reduce
-    (fn [acc line]
-      (let [[typ data] (parse-line line)]
-        (if typ
-          (update acc typ conj data)
-          acc)))
-    {:category  []
-     :operation []}
-    (rest (line-seq reader))))
+(defn parse-xml [reader]
+  (let [zxml (some-> reader xml/parse zip/xml-zip)]
+    {:category  (mapv parse-category (xml-> zxml :db :category))
+     :operation (mapv parse-operation (xml-> zxml :db :operation))}))
 
 (defn category-lookup
   "Return a map to lookup categories by their ID."
@@ -89,7 +80,8 @@
         (recur (get lookup parent-id) (conj path category-name))
         path))))
 
-;(parse-file "example-export-file.xml")
+;(parse-file "example.xml")
 (defn parse-file [^String resource-name]
   (with-open [rdr (u/resource-reader resource-name)]
-    (parse rdr)))
+    (parse-xml rdr)))
+
