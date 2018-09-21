@@ -1,4 +1,4 @@
-(defproject mmoney-converter "0.1.0-SNAPSHOT"
+(defproject mmoney-converter "0.1.0"
   :description "Convert or export mMoney XML export file"
   :url "https://github.com/malesch/mmoney-converter"
   :license {:name "Eclipse Public License"
