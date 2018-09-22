@@ -8,7 +8,8 @@
                  [org.clojure/data.xml "0.0.8"]
                  [org.clojure/data.zip "0.1.2"]
                  [org.clojure/data.csv "0.1.4"]
-                 [dk.ative/docjure "1.12.0"]]
+                 [dk.ative/docjure "1.12.0"]
+                 [com.taoensso/timbre "4.10.0"]]
   :min-lein-version "2.0.0"
   :source-paths ["src"]
   :resource-paths ["resources"]

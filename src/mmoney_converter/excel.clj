@@ -1,5 +1,5 @@
 (ns mmoney-converter.excel
-  (:require [clojure.edn :as edn]
+  (:require [taoensso.timbre :as timbre]
             [dk.ative.docjure.spreadsheet :as ss]
             [mmoney-converter.mmoney :as mm]
             [mmoney-converter.account :as account]))
@@ -33,7 +33,7 @@
     (when-not (credit-account? config account-number)
       (or account-number
           (do
-            (println (format "Warning: Missing account mapping for `%s` (%s)" leaf-account-name category-path))
+            (timbre/warnf "Missing account mapping for `%s`" leaf-account-name)
             "-")))))
 
 (defmethod format-op-value :credit-account [value _ {:keys [config category-lookup account-mapping]}]
@@ -43,7 +43,7 @@
     (when (credit-account? config account-number)
       (or account-number
           (do
-            (println (format "Warning: Missing account mapping for `%s` (%s)" leaf-account-name category-path))
+            (timbre/warnf "Missing account mapping for `%s`" leaf-account-name)
             "-")))))
 
 (defmethod format-op-value :account-name [value _ {:keys [category-lookup]}]

@@ -3,6 +3,7 @@
             [clojure.edn :as edn]
             [clojure.java.io :as io]
             [clojure.tools.cli :as cli]
+            [taoensso.timbre :as timbre]
             [mmoney-converter.mmoney :as mm]
             [mmoney-converter.util :as u]
             [mmoney-converter.excel :as xls])
@@ -54,22 +55,37 @@
     (edn/read-string (slurp rdr))
     (throw (ex-info "Configuration file not accessible" {:file res}))))
 
-(defn -main [& args]
-  (let [{:keys [options errors summary]} (cli/parse-opts args cli-options)]
-    (cond
-      (:help options) (exit 0 (usage summary))
-      errors (exit 1 (usage summary errors)))
+(defn configure-cli-logging!
+  ([] (configure-cli-logging! :info))
+  ([level]
+   (timbre/merge-config! {:level     level
+                          :output-fn (fn [{:keys [?err msg_]}]
+                                       (->> [(force msg_) (when ?err (.getMessage ?err))]
+                                            (filter (complement string/blank?))
+                                            (interpose ": ")
+                                            (apply str)))})))
 
-    (let [cfg-file (:config options)
-          in-file (:input options)
-          out-file (:output options)
-          config (read-configuration cfg-file)]
-      (println "Convert mMoney XML export to Excel")
-      (println "  Configuration:    " cfg-file)
-      (println "  Input:            " in-file)
-      (println "  Output:           " out-file)
-      (println)
-      (-> in-file
-          (mm/parse-file)
-          (xls/export config out-file))
-      (println "Done"))))
+(defn -main [& args]
+  (configure-cli-logging!)
+  (try
+    (let [{:keys [options errors summary]} (cli/parse-opts args cli-options)]
+      (cond
+        (:help options) (exit 0 (usage summary))
+        errors (exit 1 (usage summary errors)))
+
+      (let [cfg-file (:config options)
+            in-file (:input options)
+            out-file (:output options)
+            config (read-configuration cfg-file)]
+        (println "Convert mMoney XML export to Excel")
+        (println "  Configuration:    " cfg-file)
+        (println "  Input:            " in-file)
+        (println "  Output:           " out-file)
+        (println)
+        (-> in-file
+            (mm/parse-file)
+            (xls/export config out-file))
+        (println)
+        (println "Done")))
+    (catch Exception ex
+      (timbre/error ex "Application error"))))
