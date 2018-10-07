@@ -65,6 +65,16 @@
                                             (interpose ": ")
                                             (apply str)))})))
 
+(defn configure-collecting-logging!
+  "Configure a collecting logger and return the atom which records all messages."
+  ([] (configure-collecting-logging! :info))
+  ([level]
+   (let [collector (atom [])]
+     (timbre/merge-config! {:level     level
+                            :output-fn (fn [{:keys [?err level msg_]}]
+                                         (swap! collector conj {:level level :message (force msg_) :err ?err}))})
+     collector)))
+
 (defn -main [& args]
   (configure-cli-logging!)
   (try
