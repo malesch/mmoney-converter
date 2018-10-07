@@ -56,9 +56,13 @@
         (update-in [:created] u/safe-parse-epoch))))
 
 (defn parse-xml [reader]
-  (let [zxml (some-> reader xml/parse zip/xml-zip)]
-    {:category  (mapv parse-category (xml-> zxml :db :category))
-     :operation (mapv parse-operation (xml-> zxml :db :operation))}))
+  (try
+    (let [zxml (some-> reader xml/parse zip/xml-zip)]
+      {:category  (mapv parse-category (xml-> zxml :db :category))
+       :operation (mapv parse-operation (xml-> zxml :db :operation))})
+    (catch Exception ex
+      (throw (ex-info "Error parsing XML file" {:reason (.getMessage ex)
+                                                :cause ex})))))
 
 (defn category-lookup
   "Return a map to lookup categories by their ID."
@@ -82,6 +86,9 @@
 
 ;(parse-file "example.xml")
 (defn parse-file [^String resource-name]
-  (with-open [rdr (u/resource-reader resource-name)]
-    (parse-xml rdr)))
+  (let [res-reader (u/resource-reader resource-name)]
+    (when-not res-reader
+      (throw (ex-info "Input resource not found" {:resource resource-name})))
+    (with-open [rdr res-reader]
+      (parse-xml rdr))))
 
