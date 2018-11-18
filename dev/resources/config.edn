@@ -1,4 +1,5 @@
-{:account-mapping {:file "account-mapping.edn"
+{:version         "1.0"
+ :account-mapping {:file "account-mapping.edn"
                    :encoding "Windows-1252"}
  :credit-accounts #{1000 1001}
  :columns         [{:column     :date
