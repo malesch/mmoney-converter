@@ -2,7 +2,7 @@
                    :encoding "Windows-1252"}
  :credit-accounts #{1000 1001}
  :columns         [{:column     :date
-                    :source-key :created
+                    :source-key :date
                     :label      "Datum"
                     :width      5120
                     :styles     {:halign      :center

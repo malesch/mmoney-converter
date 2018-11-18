@@ -13,6 +13,7 @@ export.xls
 dev/resources/mmoney-export.xml
 dev/resources/kontoplan.txt
 dev/resources/accounts.edn
+dev/resources/debug
 .idea/
 *.iml
 bin/
