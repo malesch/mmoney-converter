@@ -32,7 +32,8 @@
      (-> s
          (LocalDate/parse DateTimeFormatter/ISO_LOCAL_DATE)
          (.atStartOfDay)
-         (.toInstant zone-offset))
+         (.toInstant zone-offset)
+         (Date/from))
      (catch Exception _
        nil))))
 
